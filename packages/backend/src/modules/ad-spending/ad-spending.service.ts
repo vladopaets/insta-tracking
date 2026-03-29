@@ -19,7 +19,7 @@ export class AdSpendingService {
   }
 
   findAll(userId: string, query: QueryAdSpendingDto) {
-    const where: any = { userId };
+    const where: Record<string, unknown> = { userId };
     if (query.startDate && query.endDate) {
       where.date = Between(query.startDate, query.endDate);
     }

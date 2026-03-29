@@ -27,10 +27,7 @@ export class IncomeController {
   }
 
   @Get()
-  findAll(
-    @CurrentUser() user: { id: string },
-    @Query() query: QueryIncomeDto,
-  ) {
+  findAll(@CurrentUser() user: { id: string }, @Query() query: QueryIncomeDto) {
     return this.service.findAll(user.id, query);
   }
 

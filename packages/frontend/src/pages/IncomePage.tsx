@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Title,
   Button,
@@ -10,12 +10,12 @@ import {
   Stack,
   ActionIcon,
   LoadingOverlay,
-} from '@mantine/core';
-import { DateInput } from '@mantine/dates';
-import { useForm } from '@mantine/form';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { notifications } from '@mantine/notifications';
-import dayjs from 'dayjs';
+} from "@mantine/core";
+import { DateInput } from "@mantine/dates";
+import { useForm } from "@mantine/form";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
+import dayjs from "dayjs";
 import {
   getIncome,
   createIncome,
@@ -23,7 +23,7 @@ import {
   deleteIncome,
   type Income,
   type CreateIncomeData,
-} from '../api/income';
+} from "../api/income";
 
 export function IncomePage() {
   const [opened, setOpened] = useState(false);
@@ -31,19 +31,26 @@ export function IncomePage() {
   const queryClient = useQueryClient();
 
   const { data: entries = [], isLoading } = useQuery({
-    queryKey: ['income'],
+    queryKey: ["income"],
     queryFn: () => getIncome(),
   });
 
   const form = useForm<CreateIncomeData & { dateObj: Date | null }>({
-    initialValues: { date: '', amount: 0, clientName: '', description: '', source: '', dateObj: null },
+    initialValues: {
+      date: "",
+      amount: 0,
+      clientName: "",
+      description: "",
+      source: "",
+      dateObj: null,
+    },
   });
 
   const openCreate = () => {
     setEditing(null);
     form.reset();
-    form.setFieldValue('dateObj', new Date());
-    form.setFieldValue('date', dayjs().format('YYYY-MM-DD'));
+    form.setFieldValue("dateObj", new Date());
+    form.setFieldValue("date", dayjs().format("YYYY-MM-DD"));
     setOpened(true);
   };
 
@@ -52,9 +59,9 @@ export function IncomePage() {
     form.setValues({
       date: entry.date,
       amount: Number(entry.amount),
-      clientName: entry.clientName ?? '',
-      description: entry.description ?? '',
-      source: entry.source ?? '',
+      clientName: entry.clientName ?? "",
+      description: entry.description ?? "",
+      source: entry.source ?? "",
       dateObj: new Date(entry.date),
     });
     setOpened(true);
@@ -63,32 +70,38 @@ export function IncomePage() {
   const createMutation = useMutation({
     mutationFn: (data: CreateIncomeData) => createIncome(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['income'] });
+      queryClient.invalidateQueries({ queryKey: ["income"] });
       setOpened(false);
-      notifications.show({ message: 'Income added', color: 'green' });
+      notifications.show({ message: "Income added", color: "green" });
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<CreateIncomeData> }) =>
-      updateIncome(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<CreateIncomeData>;
+    }) => updateIncome(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['income'] });
+      queryClient.invalidateQueries({ queryKey: ["income"] });
       setOpened(false);
-      notifications.show({ message: 'Income updated', color: 'green' });
+      notifications.show({ message: "Income updated", color: "green" });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteIncome,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['income'] });
-      notifications.show({ message: 'Income deleted', color: 'red' });
+      queryClient.invalidateQueries({ queryKey: ["income"] });
+      notifications.show({ message: "Income deleted", color: "red" });
     },
   });
 
   const handleSubmit = () => {
-    const { dateObj, ...data } = form.values;
+    const { date, amount, clientName, description, source } = form.values;
+    const data = { date, amount, clientName, description, source };
     if (editing) {
       updateMutation.mutate({ id: editing.id, data });
     } else {
@@ -99,7 +112,7 @@ export function IncomePage() {
   const total = entries.reduce((s, e) => s + Number(e.amount), 0);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: "relative" }}>
       <LoadingOverlay visible={isLoading} />
       <Group justify="space-between" mb="md">
         <Title order={2}>Income</Title>
@@ -122,7 +135,7 @@ export function IncomePage() {
         <Table.Tbody>
           {entries.map((entry) => (
             <Table.Tr key={entry.id}>
-              <Table.Td>{dayjs(entry.date).format('MMM D, YYYY')}</Table.Td>
+              <Table.Td>{dayjs(entry.date).format("MMM D, YYYY")}</Table.Td>
               <Table.Td>${Number(entry.amount).toFixed(2)}</Table.Td>
               <Table.Td>{entry.clientName}</Table.Td>
               <Table.Td>{entry.source}</Table.Td>
@@ -156,17 +169,25 @@ export function IncomePage() {
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={editing ? 'Edit Income' : 'Add Income'}
+        title={editing ? "Edit Income" : "Add Income"}
       >
-        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
           <Stack>
             <DateInput
               label="Date"
               required
               value={form.values.dateObj}
               onChange={(d) => {
-                form.setFieldValue('dateObj', d ? new Date(d) : null);
-                form.setFieldValue('date', d ? dayjs(d).format('YYYY-MM-DD') : '');
+                form.setFieldValue("dateObj", d ? new Date(d) : null);
+                form.setFieldValue(
+                  "date",
+                  d ? dayjs(d).format("YYYY-MM-DD") : "",
+                );
               }}
             />
             <NumberInput
@@ -175,13 +196,27 @@ export function IncomePage() {
               min={0}
               decimalScale={2}
               prefix="$"
-              {...form.getInputProps('amount')}
+              {...form.getInputProps("amount")}
             />
-            <TextInput label="Client Name" {...form.getInputProps('clientName')} />
-            <TextInput label="Source" placeholder="e.g. instagram, referral" {...form.getInputProps('source')} />
-            <TextInput label="Description" {...form.getInputProps('description')} />
-            <Button type="submit" color="green" loading={createMutation.isPending || updateMutation.isPending}>
-              {editing ? 'Update' : 'Add'}
+            <TextInput
+              label="Client Name"
+              {...form.getInputProps("clientName")}
+            />
+            <TextInput
+              label="Source"
+              placeholder="e.g. instagram, referral"
+              {...form.getInputProps("source")}
+            />
+            <TextInput
+              label="Description"
+              {...form.getInputProps("description")}
+            />
+            <Button
+              type="submit"
+              color="green"
+              loading={createMutation.isPending || updateMutation.isPending}
+            >
+              {editing ? "Update" : "Add"}
             </Button>
           </Stack>
         </form>

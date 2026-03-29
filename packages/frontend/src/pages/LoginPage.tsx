@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -11,22 +11,22 @@ import {
   Anchor,
   Text,
   Alert,
-} from '@mantine/core';
-import { useAuth } from '../hooks/useAuth';
+} from "@mantine/core";
+import { useAuth } from "../hooks/useAuth";
 
 export function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
       if (isRegister) {
@@ -34,9 +34,14 @@ export function LoginPage() {
       } else {
         await login(email, password);
       }
-      navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Something went wrong');
+      navigate("/");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
+      setError(
+        (err as { response?: { data?: { message?: string } } })?.response?.data
+          ?.message || message,
+      );
     } finally {
       setLoading(false);
     }
@@ -48,7 +53,7 @@ export function LoginPage() {
         Insta Ad Tracker
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
-        {isRegister ? 'Create an account' : 'Sign in to your account'}
+        {isRegister ? "Create an account" : "Sign in to your account"}
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -78,14 +83,18 @@ export function LoginPage() {
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
             <Button type="submit" fullWidth loading={loading}>
-              {isRegister ? 'Register' : 'Sign in'}
+              {isRegister ? "Register" : "Sign in"}
             </Button>
           </Stack>
         </form>
         <Text ta="center" mt="md" size="sm">
-          {isRegister ? 'Already have an account? ' : "Don't have an account? "}
-          <Anchor component="button" type="button" onClick={() => setIsRegister(!isRegister)}>
-            {isRegister ? 'Sign in' : 'Register'}
+          {isRegister ? "Already have an account? " : "Don't have an account? "}
+          <Anchor
+            component="button"
+            type="button"
+            onClick={() => setIsRegister(!isRegister)}
+          >
+            {isRegister ? "Sign in" : "Register"}
           </Anchor>
         </Text>
       </Paper>

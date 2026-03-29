@@ -14,11 +14,7 @@ export class DashboardService {
     private incomeRepo: Repository<Income>,
   ) {}
 
-  async getDashboard(
-    userId: string,
-    period: 'week' | 'month',
-    date?: string,
-  ) {
+  async getDashboard(userId: string, period: 'week' | 'month', date?: string) {
     const baseDate = date ? dayjs(date) : dayjs();
     const start = baseDate.startOf(period).format('YYYY-MM-DD');
     const end = baseDate.endOf(period).format('YYYY-MM-DD');
@@ -39,10 +35,7 @@ export class DashboardService {
       (sum, s) => sum + Number(s.amount),
       0,
     );
-    const totalIncome = income.reduce(
-      (sum, i) => sum + Number(i.amount),
-      0,
-    );
+    const totalIncome = income.reduce((sum, i) => sum + Number(i.amount), 0);
     const roi =
       totalAdSpending > 0
         ? Math.round(
