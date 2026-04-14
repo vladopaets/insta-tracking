@@ -54,3 +54,7 @@ React SPA with react-router-dom, @tanstack/react-query for server state, Mantine
 - **Database:** PostgreSQL via `docker-compose.yml` at root
 - **Backend .env:** `packages/backend/.env` (DB connection, JWT secret)
 - **Vite proxy:** `/api` -> `http://localhost:3000`
+
+## GitHub
+
+- **MCP Server:** GitHub MCP is configured via Docker (`MCP_DOCKER`). Use `mcp__MCP_DOCKER__*` tools for GitHub operations (issues, PRs, branches, etc.)

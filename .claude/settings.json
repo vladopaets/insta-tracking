@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_NEW_INIT": "1"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -12,8 +15,5 @@
       }
     ]
   },
-  "env": {
-    "CLAUDE_CODE_NEW_INIT": "1"
-  }
+  "plansDirectory": "~/.claude/plans"
 }
-
