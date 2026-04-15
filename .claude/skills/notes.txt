@@ -2,6 +2,15 @@ https://skills.sh/anthropics/skills/frontend-design
 
 Demo prompt:
 
-Fix the style of the UI of the dashboard here. Make it look modern and appealing.
-  Update the charts, date/month selection and tables. Include tutorial sections on how to
-  use the dashboard.
+Fix the style of the UI of the dashboard here. Make it look modern and appealing. Use classic color schemes and fonts. Add interactive elements such as hover effects and animations to enhance user experience.
+Update the charts, date/month selection and tables. Include tutorial sections on how to use the dashboard.
+
+
+https://skills.sh/anthropics/knowledge-work-plugins/write-spec
+
+
+https://skills.sh/anthropics/skills/skill-creator
+
+try to create a skill that can generate tasks specs based on user input. The output should be used by agent to implement the task. The skill should ask the user for the task details such as the goal, requirements, and constraints. Then it should generate a clear and concise specification that can be easily understood and implemented by an agent. The specification should include the necessary steps to achieve the goal, any relevant information or resources, and any potential challenges or considerations to keep in mind.
+
+https://skills.sh/vercel-labs/skills/find-skills

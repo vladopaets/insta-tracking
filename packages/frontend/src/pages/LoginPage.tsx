@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Container,
-  Paper,
-  Title,
   TextInput,
   PasswordInput,
   Button,
   Stack,
-  Anchor,
-  Text,
   Alert,
 } from '@mantine/core';
 import { useAuth } from '../hooks/useAuth';
@@ -43,18 +38,47 @@ export function LoginPage() {
   };
 
   return (
-    <Container size={420} my={80}>
-      <Title ta="center" order={2}>
-        Insta Ad Tracker
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        {isRegister ? 'Create an account' : 'Sign in to your account'}
-      </Text>
+    <div className="it-login-wrap">
+      <div className="it-login-card it-stagger">
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontStyle: 'italic',
+              fontSize: 48,
+              color: 'var(--brass-deep)',
+              lineHeight: 1,
+              fontVariationSettings: "'SOFT' 100, 'opsz' 144",
+            }}
+          >
+            ℐ
+          </div>
+          <div className="it-eyebrow" style={{ marginTop: 14 }}>
+            Practice Ledger · Est. 2026
+          </div>
+          <h1
+            className="it-display"
+            style={{
+              fontSize: 34,
+              margin: '10px 0 4px',
+              letterSpacing: '-0.025em',
+              fontWeight: 400,
+            }}
+          >
+            Insta <em className="it-display-italic" style={{ color: 'var(--brass-deep)' }}>Tracker</em>
+          </h1>
+          <div style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic', fontFamily: 'var(--font-display)' }}>
+            {isRegister ? 'A new private record' : 'Welcome back'}
+          </div>
+        </div>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={handleSubmit}>
-          <Stack>
-            {error && <Alert color="red">{error}</Alert>}
+          <Stack gap="md">
+            {error && (
+              <Alert color="red" radius="md" variant="light">
+                {error}
+              </Alert>
+            )}
             {isRegister && (
               <TextInput
                 label="Name"
@@ -77,18 +101,49 @@ export function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
-            <Button type="submit" fullWidth loading={loading}>
-              {isRegister ? 'Register' : 'Sign in'}
+            <Button
+              type="submit"
+              fullWidth
+              loading={loading}
+              color="dark"
+              size="md"
+              radius="xl"
+            >
+              {isRegister ? 'Create account' : 'Sign in'}
             </Button>
           </Stack>
         </form>
-        <Text ta="center" mt="md" size="sm">
+
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 22,
+            paddingTop: 20,
+            borderTop: '1px solid var(--rule)',
+            fontSize: 13,
+            color: 'var(--ink-soft)',
+          }}
+        >
           {isRegister ? 'Already have an account? ' : "Don't have an account? "}
-          <Anchor component="button" type="button" onClick={() => setIsRegister(!isRegister)}>
+          <button
+            type="button"
+            onClick={() => setIsRegister(!isRegister)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--brass-deep)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              textDecoration: 'underline',
+              textUnderlineOffset: 3,
+              fontSize: 13,
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
             {isRegister ? 'Sign in' : 'Register'}
-          </Anchor>
-        </Text>
-      </Paper>
-    </Container>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
